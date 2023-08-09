@@ -14,11 +14,11 @@ public class TaskManager {
             // sendo carregadas e
         } // subi pois estava depois da onde eu estava testando o se a lista era vazia,
           // acarretando ela sempre vazia.
-        int lastId;
+        int nextId;
         if (!taskList.isEmpty()) {
-            lastId = calculateLastId(taskManager); // Calcula o último ID a partir das tarefas carregadas
+            nextId = calculateLastId(taskManager); // Calcula o último ID a partir das tarefas carregadas
         } else { // se vazio o arquivo adiciona
-            lastId = 1;
+            nextId = 1;
         }
 
         Scanner sc = new Scanner(System.in);
@@ -37,14 +37,15 @@ public class TaskManager {
             System.out.println("\n");
             switch (opcao) {
                 case 1:
+                    // Adicionar uma nova Tarefa
                     System.out.println("Digite o nome da tarefa: ");
                     String name = sc.nextLine();
                     System.out.println("Digite a descrição da tarefa: ");
                     String description = sc.nextLine();
-                    taskList.add(new Task(lastId, name, description, false));// cria a lista de tarefas
+                    taskList.add(new Task(nextId, name, description, false));// cria a lista de tarefas
 
                     taskManager.saveTasks(taskList); // Salvar as tarefas no arquivo
-                    lastId++;
+                    nextId++;
                     break;
                 case 2:
                     // criar um sub menu para escolher qual a forma de listagem
@@ -64,24 +65,25 @@ public class TaskManager {
 
                     break;
                 case 3:
+                    // Marcar Tarefa como Concluida
                     System.out.println("Digite o ID da tarefa que deseja marcar como concluida.\n");
-                    int idMark = sc.nextInt();
+                    int taskIdToMark = sc.nextInt();
                     sc.nextLine(); // Consumir a quebra de linha após o nextInt()
                     System.out.println("\n");
                     for (Task task : taskList) {
-                        if (task.getId() == idMark) {
+                        if (task.getId() == taskIdToMark) {
                             if (task.getStatus() == false) { // verificando se a tarefa ja estava marcada
                                 task.setStatus(true);
                                 taskManager.saveTasks(taskList); // Salvar as tarefas no arquivo
                                 System.out.println("A Tarefa \"" + task.getName() + "\" marcada como concluida.\n");
-                                idMark = 0; // saber que tarefa foi encontrada
+                                taskIdToMark = 0; // saber que tarefa foi encontrada
                             } else {
                                 System.out.println(
                                         "A Tarefa \"" + task.getName() + "\" ja estava marcada como concluida.\n");
                             }
                         }
                     }
-                    if (idMark != 0) { // se tarefa não foi encontrada informa ao usuario.
+                    if (taskIdToMark != 0) { // se tarefa não foi encontrada informa ao usuario.
                         System.out.println("Nenhuma tarefa encontrada.\n");
                     }
 
