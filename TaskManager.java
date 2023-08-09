@@ -89,8 +89,58 @@ public class TaskManager {
 
                     break;
                 case 4:
+                    // editar as tarefas
+                    System.out.println("Digite o ID da tarefa que deseja marcar como concluida.\n");
+                    int taskIdToEdit = sc.nextInt(); // recebe do usuario qual Tarefa deseja editar
+                    sc.nextLine(); // Consumir a quebra de linha após o nextInt()
+                    System.out.println("\n");
+                    for (Task task : taskList) {
+                        if (task.getId() == taskIdToEdit) {
+                            int editOptions;
+                            int edited = 0;
+                            do {
+                                System.out.println("Menu de Edição de Tarefas: ");
+                                System.out.println("1 - Editar nome");
+                                System.out.println("2 - Editar descrição");
+                                System.out.println("3 - Editar status");
+                                System.out.println("0 - Voltar");
+                                System.out.println("Escolha uma opção: ");
+                                editOptions = sc.nextInt();
+                                sc.nextLine(); // Consumir a quebra de linha após o nextInt()
+                                System.out.println("\n");
+                                switch (editOptions) {
+                                    case 1:
+                                        System.out.println("Digite o novo nome da tarefa: ");
+                                        task.setName(sc.nextLine());
+                                        edited++;
+                                        break;
+                                    case 2:
+                                        System.out.println("Digite a nova descrição da tarefa: ");
+                                        task.setDescription(sc.nextLine());
+                                        edited++;
+                                        break;
+                                    case 3:
+                                        task.setStatus(!task.getStatus());
+                                        edited++;
+                                        break;
+                                    case 0:
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                            } while (editOptions != 0);
+                            if (edited != 0) {
+                                taskManager.saveTasks(taskList); // Salvar as tarefas no arquivo
+                            } else {
+                                System.out.println("Nenhuma tarefa editada.\n");
+                            }
+
+                        }
+                    }
                     break;
                 case 5:
+                    System.out.println("Desculpe o transtorno, porém essa função ainda não esta implementada\n");
                     break;
                 case 0:
                     System.out.println("Encerrando o programa. Até logo!\n");
