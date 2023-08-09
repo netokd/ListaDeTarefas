@@ -37,4 +37,10 @@ public class TaskFileManager {
         return tasks; // Retorna a lista de tarefas, que pode ser vazia ou conter as tarefas lidas do
                       // arquivo
     }
+
+    public void removeTask(int taskIndex) {
+        ArrayList<Task> tasks = loadTasks(); // Carrega as tarefas do arquivo
+        tasks.remove(taskIndex); // Remove a tarefa pelo Index
+        saveTasks(tasks); // Salva as tarefas no arquivo
+    }
 }

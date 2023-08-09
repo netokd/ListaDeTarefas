@@ -32,9 +32,15 @@ public class TaskManager {
             System.out.println("5 - Deletar tarefa");
             System.out.println("0 - Sair");
             System.out.println("Escolha uma opção: ");
+
+            while (!sc.hasNextInt()) {
+                System.out.println("Opção inválida. Escolha uma opção válida: ");
+                sc.next(); // Limpar a entrada inválida
+            }
             opcao = sc.nextInt();
             sc.nextLine(); // Consumir a quebra de linha após o nextInt()
             System.out.println("\n");
+
             switch (opcao) {
                 case 1:
                     // Adicionar uma nova Tarefa
@@ -48,10 +54,12 @@ public class TaskManager {
                     nextId++;
                     break;
                 case 2:
-                    // criar um sub menu para escolher qual a forma de listagem
-                    System.out.println("A seguir todas as tarefas registradas: \n ");
+                    // implementação futura: criar um sub menu para escolher qual a forma de
+                    // listagem
+
                     ArrayList<Task> loadedTasks = taskManager.loadTasks();
-                    if (loadedTasks != null) {
+                    if (loadedTasks != null && loadedTasks.size() > 0) {
+                        System.out.println("A seguir todas as tarefas registradas: \n ");
                         for (Task task : loadedTasks) {
                             System.out.println("ID: " + task.getId());
                             System.out.println("Nome: " + task.getName());
@@ -67,6 +75,10 @@ public class TaskManager {
                 case 3:
                     // Marcar Tarefa como Concluida
                     System.out.println("Digite o ID da tarefa que deseja marcar como concluida.\n");
+                    while (!sc.hasNextInt()) {
+                        System.out.println("Opção inválida. Escolha uma opção válida: ");
+                        sc.next(); // Limpar a entrada inválida
+                    }
                     int taskIdToMark = sc.nextInt();
                     sc.nextLine(); // Consumir a quebra de linha após o nextInt()
                     System.out.println("\n");
@@ -91,6 +103,10 @@ public class TaskManager {
                 case 4:
                     // editar as tarefas
                     System.out.println("Digite o ID da tarefa que deseja marcar como concluida.\n");
+                    while (!sc.hasNextInt()) {
+                        System.out.println("Opção inválida. Escolha uma opção válida: ");
+                        sc.next(); // Limpar a entrada inválida
+                    }
                     int taskIdToEdit = sc.nextInt(); // recebe do usuario qual Tarefa deseja editar
                     sc.nextLine(); // Consumir a quebra de linha após o nextInt()
                     System.out.println("\n");
@@ -105,6 +121,10 @@ public class TaskManager {
                                 System.out.println("3 - Editar status");
                                 System.out.println("0 - Voltar");
                                 System.out.println("Escolha uma opção: ");
+                                while (!sc.hasNextInt()) {
+                                    System.out.println("Opção inválida. Escolha uma opção válida: ");
+                                    sc.next(); // Limpar a entrada inválida
+                                }
                                 editOptions = sc.nextInt();
                                 sc.nextLine(); // Consumir a quebra de linha após o nextInt()
                                 System.out.println("\n");
@@ -140,7 +160,23 @@ public class TaskManager {
                     }
                     break;
                 case 5:
-                    System.out.println("Desculpe o transtorno, porém essa função ainda não esta implementada\n");
+                    // Marcar Tarefa como Concluida
+                    System.out.println("Digite o ID da tarefa que deseja excluir.\n");
+                    while (!sc.hasNextInt()) {
+                        System.out.println("Opção inválida. Escolha uma opção válida: ");
+                        sc.next(); // Limpar a entrada inválida
+                    }
+                    int taskIdToRemove = sc.nextInt();
+                    sc.nextLine(); // Consumir a quebra de linha após o nextInt()
+                    System.out.println("\n");
+                    int indexTask = findTaskIndexById(taskList, taskIdToRemove); // localiza o index, correspondente ao
+                                                                                 // id passado pelo
+                    if (indexTask != -1) {
+                        taskManager.removeTask(indexTask);
+                        System.out.println("Tarefa removida com sucesso.\n");
+                    } else {
+                        System.out.println("Nenhuma tarefa encontrada para o id informado.\n");
+                    }
                     break;
                 case 0:
                     System.out.println("Encerrando o programa. Até logo!\n");
@@ -164,6 +200,18 @@ public class TaskManager {
             }
         }
         return maxId + 1;
+    }
+
+    public static int findTaskIndexById(ArrayList<Task> tasks, int taskId) { // vai procurar o index correspondente ao
+                                                                             // id
+        // que
+        // passarmos para a função
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getId() == taskId) {
+                return i; // Retorna o índice da tarefa com o ID correspondente
+            }
+        }
+        return -1; // Retorna -1 se o ID não foi encontrado na lista
     }
 
 }
