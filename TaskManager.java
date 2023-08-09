@@ -27,8 +27,9 @@ public class TaskManager {
         do {
             System.out.println("1 - Cadastrar tarefa");
             System.out.println("2 - Listar tarefas");
-            System.out.println("3 - Editar tarefa");
-            System.out.println("4 - Deletar tarefa");
+            System.out.println("3 - Marcar tarefa como concluida");
+            System.out.println("4 - Editar tarefa");
+            System.out.println("5 - Deletar tarefa");
             System.out.println("0 - Sair");
             System.out.println("Escolha uma opção: ");
             opcao = sc.nextInt();
@@ -46,6 +47,7 @@ public class TaskManager {
                     lastId++;
                     break;
                 case 2:
+                    // criar um sub menu para escolher qual a forma de listagem
                     System.out.println("A seguir todas as tarefas registradas: \n ");
                     ArrayList<Task> loadedTasks = taskManager.loadTasks();
                     if (loadedTasks != null) {
@@ -62,8 +64,31 @@ public class TaskManager {
 
                     break;
                 case 3:
+                    System.out.println("Digite o ID da tarefa que deseja marcar como concluida.\n");
+                    int idMark = sc.nextInt();
+                    sc.nextLine(); // Consumir a quebra de linha após o nextInt()
+                    System.out.println("\n");
+                    for (Task task : taskList) {
+                        if (task.getId() == idMark) {
+                            if (task.getStatus() == false) { // verificando se a tarefa ja estava marcada
+                                task.setStatus(true);
+                                taskManager.saveTasks(taskList); // Salvar as tarefas no arquivo
+                                System.out.println("A Tarefa \"" + task.getName() + "\" marcada como concluida.\n");
+                                idMark = 0; // saber que tarefa foi encontrada
+                            } else {
+                                System.out.println(
+                                        "A Tarefa \"" + task.getName() + "\" ja estava marcada como concluida.\n");
+                            }
+                        }
+                    }
+                    if (idMark != 0) { // se tarefa não foi encontrada informa ao usuario.
+                        System.out.println("Nenhuma tarefa encontrada.\n");
+                    }
+
                     break;
                 case 4:
+                    break;
+                case 5:
                     break;
                 case 0:
                     System.out.println("Encerrando o programa. Até logo!\n");
