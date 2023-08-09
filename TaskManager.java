@@ -172,7 +172,8 @@ public class TaskManager {
                     int indexTask = findTaskIndexById(taskList, taskIdToRemove); // localiza o index, correspondente ao
                                                                                  // id passado pelo
                     if (indexTask != -1) {
-                        taskManager.removeTask(indexTask);
+                        taskList.remove(indexTask); // remove da lista a tarefa. (ressolvendo o bug encontrado antes)
+                        taskManager.removeTask(indexTask); // remove do arquivo a tarefa
                         System.out.println("Tarefa removida com sucesso.\n");
                     } else {
                         System.out.println("Nenhuma tarefa encontrada para o id informado.\n");
